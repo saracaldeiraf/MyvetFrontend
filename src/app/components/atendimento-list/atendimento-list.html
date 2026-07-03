@@ -55,16 +55,16 @@
                         @for (atendimento of atendimentos; track atendimento.id) {
                         <tr>
                             <td class="ps-4 text-dark fw-bold fs-6">{{ atendimento.data | date:'dd/MM/yyyy' }}</td>
-                            <td class="text-secondary fw-medium">{{ atendimento.nomeAnimal }}</td>
-                            <td class="text-secondary fw-medium">{{ atendimento.descricaoServico }}</td>
-                            <td class="text-secondary fw-medium">{{ atendimento.nomeFuncionario }}</td>
+                            <td class="text-secondary fw-medium fw-bold">{{ atendimento.nomeAnimal }}</td>
+                            <td class="text-secondary fw-medium fw-bold">{{ atendimento.descricaoServico }}</td>
+                            <td class="text-secondary fw-medium fw-bold">{{ atendimento.nomeFuncionario }}</td>
                             <td>
                                 <span class="badge rounded-pill px-3 py-2"
                                       [ngClass]="atendimento.situacao === 'CONCLUIDO' ? 'bg-success-subtle text-success' : 'bg-primary-subtle text-primary'">
                                     {{ atendimento.situacao === 'CONCLUIDO' ? 'Concluído' : 'Marcado' }}
                                 </span>
                             </td>
-                            <td class="text-end fw-medium">{{ atendimento.valorTotal | currency:'BRL' }}</td>
+                            <td class="text-end fw-medium fw-bold">{{ atendimento.valorServico | currency:'BRL' }}</td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
                                     <a class="btn btn-outline-warning btn-sm px-3 rounded-2 fw-medium" [routerLink]="['/atendimentos/alterar', atendimento.id]">

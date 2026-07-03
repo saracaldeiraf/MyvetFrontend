@@ -72,7 +72,11 @@ export class FuncionarioForm implements OnInit {
         this.router.navigate(['/funcionarios']);
       },
       error: (err) => {
-        this.mensagemErro = 'Erro ao salvar as informações do funcionário.';
+        if (err?.status === 400) {
+          this.formFuncionario.get('cpf')?.setErrors({ cpfDuplicado: true });
+        } else {
+          this.mensagemErro = 'Erro ao salvar as informações do funcionário.';
+        }
       }
     }
     );

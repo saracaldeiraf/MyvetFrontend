@@ -72,9 +72,11 @@ export class ClienteForm implements OnInit {
         this.router.navigate(['/clientes']);
       },
       error: (err) => {
-        
+        if (err?.status === 400) {
+          this.formCliente.get('cpf')?.setErrors({ cpfDuplicado: true });
+        } else {
           this.mensagemErro = 'Erro ao salvar as informações do cliente.';
-        
+        }
       }
     });
   }

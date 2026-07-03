@@ -1,0 +1,76 @@
+<div class="container py-4" style="max-width: 600px;">
+    <div class="mb-3">
+        <a routerLink="/funcionarios"
+            class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1">
+            ← Voltar
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+            <h4 class="fw-bold text-dark mb-1">
+                {{ formFuncionario.get('id')?.value ? 'Alterar Funcionário' : 'Cadastrar Novo Funcionário' }}
+            </h4>
+            <p class="text-muted small mb-0">Insira as informações do funcionário no sistema</p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+            @if (mensagemErro) {
+            <div class="alert alert-danger border-0 small rounded-3 mb-3">{{ mensagemErro }}</div>
+            }
+
+            <form [formGroup]="formFuncionario">
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">Nome Completo</label>
+                    <input type="text" class="form-control rounded-3 py-2" formControlName="nome"
+                        placeholder="Ex: João Silva..." [ngClass]="{'is-invalid': validarCampo('nome', 'required')}">
+                    @if (validarCampo('nome', 'required')) {
+                    <div class="text-danger small mt-1">O nome é obrigatório.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">CPF</label>
+                    <input type="text" class="form-control rounded-3 py-2" formControlName="cpf"
+                        placeholder="000.000.000-00" [ngClass]="{'is-invalid': validarCampo('cpf', 'required')}">
+                    @if (validarCampo('cpf', 'required')) {
+                    <div class="text-danger small mt-1">O CPF é obrigatório.</div>
+                    }
+                    @if (formFuncionario.get('cpf')?.hasError('cpfDuplicado')) {
+                    <div class="text-danger small mt-1">Este CPF já existe.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">E-mail</label>
+                    <input type="email" class="form-control rounded-3 py-2" formControlName="email"
+                        placeholder="exemplo@email.com"
+                        [ngClass]="{'is-invalid': validarCampo('email', 'required') || validarCampo('email', 'email')}">
+                    @if (validarCampo('email', 'required')) {
+                    <div class="text-danger small mt-1">O e-mail é obrigatório.</div>
+                    }
+                    @if (formFuncionario.get('email')?.hasError('email') && formFuncionario.get('email')?.touched) {
+                    <div class="text-danger small mt-1">Insira um e-mail válido.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">Cargo</label>
+                    <select class="form-select rounded-3 py-2" formControlName="tipo">
+                        <option value="MEDICO">Médico</option>
+                        <option value="ATENDENTE">Atendente</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top">
+                    <a routerLink="/funcionarios"
+                        class="btn btn-light border px-4 py-2 rounded-3 fw-medium">Cancelar</a>
+                    <button type="button" class="btn btn-primary px-4 py-2 rounded-3 fw-medium shadow-sm"
+                        [disabled]="formFuncionario.invalid" (click)="salvar()">
+                        Salvar Funcionário
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="container py-4" style="max-width: 600px;">
+    <div class="mb-3">
+        <a routerLink="/animais" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1">
+            ← Voltar
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+            <h4 class="fw-bold text-dark mb-1">
+                {{ formAnimal.get('id')?.value ? 'Alterar Animal' : 'Cadastrar Novo Animal' }}
+            </h4>
+            <p class="text-muted small mb-0">Insira as informações do pet no sistema</p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+            @if (mensagemErro) {
+                <div class="alert alert-danger border-0 small rounded-3 mb-3">{{ mensagemErro }}</div>
+            }
+
+            <form [formGroup]="formAnimal">
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">Nome do Animal</label>
+                    <input type="text" class="form-control rounded-3 py-2" formControlName="nome" 
+                           placeholder="Ex: Thor, Luna, Mel..."
+                           [ngClass]="{'is-invalid': validarCampo('nome', 'required')}">
+                    @if (validarCampo('nome', 'required')) {
+                        <div class="text-danger small mt-1">O nome do animal é obrigatório.</div>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-medium text-secondary">Dono / Responsável</label>
+                    <select class="form-select rounded-3 py-2" formControlName="idPessoaDono"
+                            [ngClass]="{'is-invalid': validarCampo('idPessoaDono', 'required')}">
+                        <option [value]="null" disabled selected>Selecione um dono...</option>
+                        
+                        @for (dono of donosMock; track dono.id) {
+                            <option [value]="dono.id">{{ dono.nome }}</option>
+                        }
+                    </select>
+                    @if (validarCampo('idPessoaDono', 'required')) {
+                        <div class="text-danger small mt-1">A seleção do dono é obrigatória.</div>
+                    }
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top">
+                    <a routerLink="/animais" class="btn btn-light border px-4 py-2 rounded-3 fw-medium">Cancelar</a>
+                    <button type="button" class="btn btn-primary px-4 py-2 rounded-3 fw-medium shadow-sm" 
+                            [disabled]="formAnimal.invalid" (click)="salvar()">
+                        Salvar Animal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

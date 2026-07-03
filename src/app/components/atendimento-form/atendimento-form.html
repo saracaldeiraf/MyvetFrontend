@@ -1,0 +1,168 @@
+<div class="container py-4" style="max-width: 700px;">
+    <div class="mb-3">
+        <a routerLink="/atendimentos"
+            class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1">
+            ← Voltar
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+            <h4 class="fw-bold text-dark mb-1">
+                {{ formAtendimento.get('id')?.value ? 'Alterar Atendimento' : 'Cadastrar Novo Atendimento' }}
+            </h4>
+            <p class="text-muted small mb-0">Insira as informações do atendimento no sistema</p>
+        </div>
+
+        <div class="card-body px-4 pb-4">
+            @if (mensagemErro) {
+            <div class="alert alert-danger border-0 small rounded-3 mb-3">{{ mensagemErro }}</div>
+            }
+
+            <form [formGroup]="formAtendimento">
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small fw-medium text-secondary">Animal</label>
+                        <select class="form-select rounded-3 py-2" formControlName="animal_id"
+                            [ngClass]="{'is-invalid': validarCampo('animal_id', 'required')}">
+                            <option [ngValue]="null" disabled selected>Selecione um animal...</option>
+                            @for (animal of animais; track animal.id) {
+                            <option [ngValue]="animal.id">{{ animal.nome }}</option>
+                            }
+                        </select>
+                        @if (validarCampo('animal_id', 'required')) {
+                        <div class="text-danger small mt-1">A seleção do animal é obrigatória.</div>
+                        }
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small fw-medium text-secondary">Funcionário</label>
+                        <select class="form-select rounded-3 py-2" formControlName="pessoa_funcionario_id"
+                            [ngClass]="{'is-invalid': validarCampo('pessoa_funcionario_id', 'required')}">
+                            <option [ngValue]="null" disabled selected>Selecione um funcionário...</option>
+                            @for (funcionario of funcionarios; track funcionario.id) {
+                            <option [ngValue]="funcionario.id">{{ funcionario.nome }}</option>
+                            }
+                        </select>
+                        @if (validarCampo('pessoa_funcionario_id', 'required')) {
+                        <div class="text-danger small mt-1">A seleção do funcionário é obrigatória.</div>
+                        }
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-medium text-secondary">Serviço</label>
+                        <select class="form-select rounded-3 py-2" formControlName="servico_id"
+                            (change)="onServicoSelecionado()"
+                            [ngClass]="{'is-invalid': validarCampo('servico_id', 'required')}">
+                            <option [ngValue]="null" disabled selected>Selecione um serviço...</option>
+                            @for (servico of servicos; track servico.id) {
+                            <option [ngValue]="servico.id">{{ servico.descricao }}</option>
+                            }
+                        </select>
+                        @if (validarCampo('servico_id', 'required')) {
+                        <div class="text-danger small mt-1">A seleção do serviço é obrigatória.</div>
+                        }
+                    </div>
+
+                    <div class="col-4">
+                        <label class="form-label small fw-medium text-secondary">Valor</label>
+                        <input type="number" class="form-control rounded-3 py-2 bg-light" formControlName="valorServico"
+                            readonly>
+                    </div>
+
+                    <div class="col-4">
+                        <label class="form-label small fw-medium text-secondary">Data</label>
+                        <input type="date" class="form-control rounded-3 py-2" formControlName="data"
+                            [ngClass]="{'is-invalid': validarCampo('data', 'required')}">
+                        @if (validarCampo('data', 'required')) {
+                        <div class="text-danger small mt-1">A data é obrigatória.</div>
+                        }
+                    </div>
+
+                    <div class="col-4">
+                        <label class="form-label small fw-medium text-secondary">Situação</label>
+                        <select class="form-select rounded-3 py-2" formControlName="situacao">
+                            <option value="MARCADO">Marcado</option>
+                            <option value="CONCLUIDO">Concluído</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <h6 class="fw-bold text-dark mb-3">Produtos usados</h6>
+
+                <div class="row g-2 align-items-end mb-3">
+                    <div class="col-7">
+                        <label class="form-label small fw-medium text-secondary">Produto</label>
+                        <select class="form-select rounded-3 py-2" [(ngModel)]="produtoSelecionadoId"
+                            [ngModelOptions]="{standalone: true}">
+                            <option [ngValue]="null" disabled selected>Selecione um produto...</option>
+                            @for (produto of produtos; track produto.id) {
+                            <option [ngValue]="produto.id">{{ produto.descricao }} - {{ produto.valor | currency:'BRL'
+                                }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label small fw-medium text-secondary">Quantidade</label>
+                        <input type="number" min="1" class="form-control rounded-3 py-2" [(ngModel)]="qtdSelecionada"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-outline-primary rounded-3 py-2 w-100 fw-medium"
+                            (click)="adicionarProduto()">
+                            + Add
+                        </button>
+                    </div>
+                </div>
+
+                @if (produtosAdicionados.length > 0) {
+                <div class="table-responsive mb-3">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead class="table-light text-secondary fw-semibold small">
+                            <tr>
+                                <th class="py-2">Produto</th>
+                                <th class="py-2 text-center">Qtd</th>
+                                <th class="py-2 text-end">Subtotal</th>
+                                <th class="py-2"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="small text-dark">
+                            @for (produto of produtosAdicionados; track produto.produtoId; let i = $index) {
+                            <tr>
+                                <td>{{ produto.descricaoProduto }}</td>
+                                <td class="text-center">{{ produto.qtd }}</td>
+                                <td class="text-end">{{ produto.subtotal | currency:'BRL' }}</td>
+                                <td class="text-end">
+                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-2"
+                                        (click)="removerProduto(i)">
+                                        Excluir
+                                    </button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                } @else {
+                <p class="text-muted small mb-3">Nenhum produto adicionado a este atendimento.</p>
+                }
+
+                <div class="d-flex justify-content-between align-items-center bg-light rounded-3 px-3 py-2 mb-4">
+                    <span class="small fw-medium text-secondary">Total (serviço + produtos)</span>
+                    <span class="fw-bold fs-5 text-dark">{{ totalGeral | currency:'BRL' }}</span>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                    <a routerLink="/atendimentos"
+                        class="btn btn-light border px-4 py-2 rounded-3 fw-medium">Cancelar</a>
+                    <button type="button" class="btn btn-primary px-4 py-2 rounded-3 fw-medium shadow-sm"
+                        (click)="salvar()">
+                        Salvar Atendimento
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+[build]
+  base = "MyvetFrontend-main/MyvetFrontend-main"
+  command = "npm run build"
+  publish = "MyvetFrontend-main/MyvetFrontend-main/dist/myvet/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

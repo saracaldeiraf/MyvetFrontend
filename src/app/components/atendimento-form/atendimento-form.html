@@ -99,7 +99,7 @@
                             [ngModelOptions]="{standalone: true}">
                             <option [ngValue]="null" disabled selected>Selecione um produto...</option>
                             @for (produto of produtos; track produto.id) {
-                            <option [ngValue]="produto.id">{{ produto.descricao }} - {{ produto.valor | currency:'BRL'
+                            <option [ngValue]="produto.id">{{ produto.nome }} - {{ produto.valor | currency:'BRL'
                                 }}</option>
                             }
                         </select>

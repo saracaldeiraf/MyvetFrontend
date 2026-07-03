@@ -188,14 +188,13 @@ export class AtendimentoForm implements OnInit {
       valorServico: dadosForm.valorServico,
       servico_id: dadosForm.servico_id,
       animal_id: dadosForm.animal_id,
-      pessoa_funcionario_id: dadosForm.pessoa_funcionario_id,
-      produtos: this.produtosAdicionados.map(p => ({ produtoId: p.produtoId, qtd: p.qtd }))
+      pessoa_funcionario_id: dadosForm.pessoa_funcionario_id
     } as any;
 
     const id = dadosForm.id;
     const operacao = id
       ? this.atendimentoService.alterar(id, dadosAtendimento)
-      : this.atendimentoService.salvar(dadosAtendimento);
+      : this.atendimentoService.salvar(dadosAtendimento,this.produtosAdicionados);
 
     operacao.subscribe({
       next: () => this.router.navigate(['/atendimentos']),

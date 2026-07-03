@@ -14,7 +14,7 @@ export class ServicoService {
     { id: 3, valor: 120.00, descricao: 'Ultrassonografia' }
   ];
 
-  private readonly apiUrl = 'http://localhost:8080/servicos';
+  private readonly apiUrl = 'https://myvet-ds.onrender.com/servicos';
 
   constructor(private http: HttpClient) { }
 

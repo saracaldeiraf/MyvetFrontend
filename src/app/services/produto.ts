@@ -13,7 +13,7 @@ export class ProdutoService {
     { id: 3, nome: 'Ração Premium Cães', valor: 120.00, descricao: 'Sabor carne 15kg', qtd_estoque: 16 }
   ];
 
-  private readonly apiUrl = 'http://localhost:8080/produtos';
+  private readonly apiUrl = 'https://myvet-ds.onrender.com/produtos';
 
   constructor(private http: HttpClient) { }
 

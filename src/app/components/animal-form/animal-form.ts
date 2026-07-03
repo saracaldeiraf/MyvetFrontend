@@ -32,7 +32,7 @@ export class AnimalForm implements OnInit {
 
   donosMock: Pessoa[] = [];
 
-  private readonly apiUrl = 'http://localhost:8080/pessoas';
+  private readonly apiUrl = 'https://myvet-ds.onrender.com/pessoas';
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
 

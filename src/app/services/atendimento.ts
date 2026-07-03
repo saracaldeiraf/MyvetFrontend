@@ -8,7 +8,7 @@ import { Atendimento } from '../models/atendimento.model';
 })
 export class AtendimentoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/atendimentos';
+  private apiUrl = 'https://myvet-ds.onrender.com/atendimentos';
 
   listar(): Observable<Atendimento[]> {
     return this.http.get<Atendimento[]>(this.apiUrl);

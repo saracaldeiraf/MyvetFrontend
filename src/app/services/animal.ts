@@ -14,7 +14,7 @@ export class AnimalService {
     { id: 3, nome: 'Mel', pessoaId: 22, nomePessoa: '' }
   ];
 
-  private readonly apiUrl = 'http://localhost:8080/animais';
+  private readonly apiUrl = 'https://myvet-ds.onrender.com/animais';
 
   constructor(private http: HttpClient) { }
 

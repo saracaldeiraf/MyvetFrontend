@@ -8,7 +8,7 @@ import { Pessoa } from '../models/pessoa.model';
 })
 export class PessoaService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/pessoas';
+  private apiUrl = 'https://myvet-ds.onrender.com/pessoas';
 
   listarTodas(): Observable<Pessoa[]> {
     return this.http.get<Pessoa[]>(this.apiUrl);

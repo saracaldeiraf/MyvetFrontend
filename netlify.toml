@@ -1,7 +1,6 @@
 [build]
-  base = "MyvetFrontend-main/MyvetFrontend-main"
   command = "npm run build"
-  publish = "MyvetFrontend-main/MyvetFrontend-main/dist/myvet/browser"
+  publish = "dist/myvet/browser"
 
 [[redirects]]
   from = "/*"

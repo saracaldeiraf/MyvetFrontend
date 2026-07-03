@@ -30,7 +30,7 @@ export class FuncionarioForm implements OnInit {
     this.formFuncionario = this.fb.group({
       id: [null],
       nome: ['', [Validators.required]],
-      cpf: ['', [Validators.required]],
+      cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
       tipo: ['MEDICO', [Validators.required]]
     });
@@ -72,13 +72,10 @@ export class FuncionarioForm implements OnInit {
         this.router.navigate(['/funcionarios']);
       },
       error: (err) => {
-        if (err?.status === 400) {
-          this.formFuncionario.get('cpf')?.setErrors({ cpfDuplicado: true });
-        } else {
-          this.mensagemErro = 'Erro ao salvar as informações do funcionário.';
-        }
+        this.mensagemErro = 'Erro ao salvar as informações do funcionário.';
       }
-    });
+    }
+    );
   }
 
 }

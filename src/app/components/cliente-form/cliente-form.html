@@ -31,12 +31,18 @@
                 <div class="mb-3">
                     <label class="form-label small fw-medium text-secondary">CPF</label>
                     <input type="text" class="form-control rounded-3 py-2" formControlName="cpf"
-                        placeholder="000.000.000-00" [ngClass]="{'is-invalid': validarCampo('cpf', 'required')}">
+                        [ngClass]="{'is-invalid': validarCampo('cpf', 'required')}" mask="000.000.000-00">
                     @if (validarCampo('cpf', 'required')) {
                     <div class="text-danger small mt-1">O CPF é obrigatório.</div>
                     }
+                    @if (validarCampo('cpf', 'minlength')) {
+                    <div class="text-danger small">O CPF deve possuir mínimo 11 caracteres.</div>
+                    }
+                    @if (validarCampo('cpf', 'maxlength')){
+                    <div class="text-danger small">O CPF deve possuir no máximo 11 caracteres.</div>
+                    }
                     @if (formCliente.get('cpf')?.hasError('cpfDuplicado')) {
-                    <div class="text-danger small mt-1">CPF já existente.</div>
+                    <div class="text-danger small mt-1">Este CPF já existe.</div>
                     }
                 </div>
 

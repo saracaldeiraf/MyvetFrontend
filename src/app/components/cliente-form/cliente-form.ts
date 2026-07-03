@@ -30,7 +30,7 @@ export class ClienteForm implements OnInit {
     this.formCliente = this.fb.group({
       id: [null],
       nome: ['', [Validators.required]],
-      cpf: ['', [Validators.required]],
+      cpf: ['', [Validators.required,Validators.minLength(11), Validators.maxLength(11)]],
       email: ['', [Validators.required, Validators.email]],
       tipo: ['CLIENTE']
     });
@@ -72,11 +72,9 @@ export class ClienteForm implements OnInit {
         this.router.navigate(['/clientes']);
       },
       error: (err) => {
-        if (err?.status === 400) {
-          this.formCliente.get('cpf')?.setErrors({ cpfDuplicado: true });
-        } else {
+        
           this.mensagemErro = 'Erro ao salvar as informações do cliente.';
-        }
+        
       }
     });
   }
